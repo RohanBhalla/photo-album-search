@@ -28,12 +28,12 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 - [x] Create a domain called `photos`
 
 ### 2. Upload & index photos
-- [ ] S3 bucket B2 for photos
-- [ ] Lambda LF1 `index-photos`
-- [ ] S3 PUT event on B2 triggers LF1 (test: upload a file, check LF1 logs)
-- [ ] LF1 calls Rekognition `detectLabels`
-- [ ] LF1 reads `x-amz-meta-customLabels` with `headObject` and builds the labels array (A1)
-- [ ] LF1 stores `{objectKey, bucket, createdTimestamp, labels}` in the `photos` index
+- [x] S3 bucket B2 for photos
+- [x] Lambda LF1 `index-photos`
+- [x] S3 PUT event on B2 triggers LF1 (test: upload a file, check LF1 logs)
+- [x] LF1 calls Rekognition `detectLabels`
+- [x] LF1 reads `x-amz-meta-customLabels` with `headObject` and builds the labels array (A1)
+- [x] LF1 stores `{objectKey, bucket, createdTimestamp, labels}` in the `photos` index
 
 ### 3. Search
 - [ ] Lambda LF2 `search-photos`

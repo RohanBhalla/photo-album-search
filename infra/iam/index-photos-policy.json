@@ -1,0 +1,10 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Sid": "ReadPhotos", "Effect": "Allow", "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::photo-album-search-photos-088850687383/*" },
+    { "Sid": "DetectLabels", "Effect": "Allow", "Action": "rekognition:DetectLabels", "Resource": "*" },
+    { "Sid": "WriteIndex", "Effect": "Allow", "Action": ["es:ESHttpPut", "es:ESHttpPost", "es:ESHttpGet"],
+      "Resource": "arn:aws:es:us-east-1:088850687383:domain/photos/*" }
+  ]
+}
