@@ -25,7 +25,7 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 ## Requirements checklist
 
 ### 1. OpenSearch (ElasticSearch)
-- [ ] Create a domain called `photos`
+- [x] Create a domain called `photos`
 
 ### 2. Upload & index photos
 - [ ] S3 bucket B2 for photos
