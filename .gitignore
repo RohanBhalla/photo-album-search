@@ -1,0 +1,26 @@
+# Secrets and local settings
+.env
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Lambda build output
+build/
+dist/
+*.zip
+package/
+
+# Node
+node_modules/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Course PDF (lives outside the repo)
+*.pdf
