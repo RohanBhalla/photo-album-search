@@ -70,9 +70,9 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 ### Acceptance criteria
 - [x] T1 creates the resources
 - [x] A push to GitHub triggers build and deploy (frontend and backend)
-- [ ] Custom labels work end to end (mandatory)
-- [ ] Every Rekognition label and every custom label finds the photo, alone ("show me dogs") or in pairs ("show me cats and dogs")
-- [ ] Everything else works as described
+- [x] Custom labels work end to end (mandatory)
+- [x] Every Rekognition label and every custom label finds the photo, alone ("show me dogs") or in pairs ("show me cats and dogs")
+- [x] Everything else works as described
 
 ## AWS setup
 
@@ -102,3 +102,10 @@ aws cloudformation describe-stacks --stack-name photo-album-search-t1 \
 - To change Lambda code: edit the inline `ZipFile` code in the template and run `deploy` again.
 - All names are prefixed with the stack name, so it runs alongside the main deployment.
   Each search Lambda only returns photos from its own bucket, so they can share the `photos` index.
+
+## Checking everything
+
+```bash
+.venv/bin/python scripts/check_requirements.py   # every assignment requirement against live AWS (30 checks)
+.venv/bin/python scripts/test_search.py          # every label of every photo, alone and in pairs
+```
