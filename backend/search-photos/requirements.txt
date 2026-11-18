@@ -1,0 +1,2 @@
+opensearch-py>=2.8,<3
+python-dateutil<3

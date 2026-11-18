@@ -1,0 +1,11 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Sid": "AskLex", "Effect": "Allow", "Action": "lex:RecognizeText",
+      "Resource": "arn:aws:lex:us-east-1:088850687383:bot-alias/XKKEPAXRIH/Y9USXO6ESH" },
+    { "Sid": "SearchIndex", "Effect": "Allow", "Action": ["es:ESHttpGet", "es:ESHttpPost"],
+      "Resource": "arn:aws:es:us-east-1:088850687383:domain/photos/*" },
+    { "Sid": "PresignPhotoUrls", "Effect": "Allow", "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::photo-album-search-photos-088850687383/*" }
+  ]
+}

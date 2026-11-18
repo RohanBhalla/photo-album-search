@@ -36,11 +36,11 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 - [x] LF1 stores `{objectKey, bucket, createdTimestamp, labels}` in the `photos` index
 
 ### 3. Search
-- [ ] Lambda LF2 `search-photos`
-- [ ] Lex bot with one intent `SearchIntent`
-- [ ] Utterances for keywords ("trees") and sentences ("show me trees and birds"), 1–2 keywords per query
-- [ ] LF2 sends query `q` to Lex, searches OpenSearch with the keywords, returns results per the API spec
-- [ ] Empty array when Lex finds no keywords
+- [x] Lambda LF2 `search-photos`
+- [x] Lex bot with one intent `SearchIntent`
+- [x] Utterances for keywords ("trees") and sentences ("show me trees and birds"), 1–2 keywords per query
+- [x] LF2 sends query `q` to Lex, searches OpenSearch with the keywords, returns results per the API spec
+- [x] Empty array when Lex finds no keywords
 
 ### 4. API layer (API Gateway)
 - [ ] API built from the [Swagger spec](https://github.com/001000001/ai-photo-search-columbia-f2018/blob/master/swagger.yaml)
