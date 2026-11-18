@@ -21,7 +21,7 @@
               "version": "1"
             },
             "configuration": {
-              "ConnectionArn": "arn:aws:codeconnections:us-east-1:088850687383:connection/a82fc812-9d03-4be2-bacf-1aca95666390",
+              "ConnectionArn": "arn:aws:codeconnections:us-east-1:088850687383:connection/38a8a6f8-7249-4217-925d-38f3658a3474",
               "FullRepositoryId": "RohanBhalla/photo-album-search",
               "BranchName": "main",
               "OutputArtifactFormat": "CODE_ZIP",

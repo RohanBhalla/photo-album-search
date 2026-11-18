@@ -4,7 +4,7 @@
     { "Sid": "Artifacts", "Effect": "Allow", "Action": ["s3:GetObject", "s3:GetObjectVersion", "s3:PutObject", "s3:GetBucketVersioning", "s3:ListBucket"],
       "Resource": ["arn:aws:s3:::photo-album-search-pipeline-088850687383", "arn:aws:s3:::photo-album-search-pipeline-088850687383/*"] },
     { "Sid": "GitHubConnection", "Effect": "Allow", "Action": ["codeconnections:UseConnection", "codestar-connections:UseConnection"],
-      "Resource": "arn:aws:codeconnections:us-east-1:088850687383:connection/a82fc812-9d03-4be2-bacf-1aca95666390" },
+      "Resource": "arn:aws:codeconnections:us-east-1:088850687383:connection/38a8a6f8-7249-4217-925d-38f3658a3474" },
     { "Sid": "RunBuilds", "Effect": "Allow", "Action": ["codebuild:StartBuild", "codebuild:BatchGetBuilds"],
       "Resource": ["arn:aws:codebuild:us-east-1:088850687383:project/photo-album-backend", "arn:aws:codebuild:us-east-1:088850687383:project/photo-album-frontend"] }
   ]
