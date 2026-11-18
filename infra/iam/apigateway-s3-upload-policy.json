@@ -1,0 +1,7 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Sid": "UploadPhotos", "Effect": "Allow", "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::photo-album-search-photos-088850687383/*" }
+  ]
+}

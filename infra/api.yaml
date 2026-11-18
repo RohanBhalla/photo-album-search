@@ -1,0 +1,159 @@
+# API Gateway definition for the photo album.
+# Based on the assignment Swagger spec, plus x-amazon-apigateway-* settings that tell
+# API Gateway what each method connects to.
+#   GET  /search?q=...      -> Lambda search-photos (LF2)
+#   PUT  /photos/{object}   -> S3 proxy straight into the photos bucket (B2)
+#   OPTIONS on both         -> CORS preflight for the browser (no API key)
+swagger: "2.0"
+info:
+  title: AI Photo Search
+  description: Photo album search (Cloud Computing Fall 2026, Assignment 3)
+  version: 1.0.0
+schemes: [https]
+basePath: /v1
+produces: [application/json]
+
+x-amazon-apigateway-api-key-source: HEADER
+# Treat images as raw bytes so they reach S3 unchanged.
+x-amazon-apigateway-binary-media-types: [image/jpeg, image/jpg, image/png, image/*]
+
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: x-api-key
+    in: header
+
+paths:
+  /search:
+    get:
+      summary: photo search method
+      operationId: searchPhotos
+      security: [{ api_key: [] }]
+      parameters:
+        - { in: query, name: q, type: string, required: false, description: the string to be searched }
+      responses:
+        "200": { description: search results, schema: { $ref: "#/definitions/SearchResponse" } }
+        "403": { description: Unauthorized, schema: { $ref: "#/definitions/Error" } }
+        "500": { description: Unexpected error, schema: { $ref: "#/definitions/Error" } }
+      x-amazon-apigateway-integration:
+        type: aws_proxy
+        httpMethod: POST
+        uri: arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:088850687383:function:search-photos/invocations
+        passthroughBehavior: when_no_match
+    options:
+      summary: CORS preflight
+      consumes: [application/json]
+      responses:
+        "200":
+          description: CORS headers
+          headers:
+            Access-Control-Allow-Origin: { type: string }
+            Access-Control-Allow-Methods: { type: string }
+            Access-Control-Allow-Headers: { type: string }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates: { application/json: '{"statusCode": 200}' }
+        passthroughBehavior: when_no_match
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Api-Key'"
+
+  /photos/{object}:
+    put:
+      summary: photo upload method
+      operationId: uploadPhoto
+      security: [{ api_key: [] }]
+      consumes: [image/png, image/jpg, image/jpeg]
+      parameters:
+        - { in: path, name: object, type: string, required: true, description: file name to store in S3 }
+        - { in: header, name: Content-Type, type: string, required: false }
+        - { in: header, name: x-amz-meta-customLabels, type: string, required: false,
+            description: "comma-separated custom labels, e.g. 'Sam, Sally'" }
+      responses:
+        "200":
+          description: S3 PUT operation response
+          schema: { type: object }
+          headers: { Access-Control-Allow-Origin: { type: string } }
+        "400":
+          description: Bad request (from S3)
+          headers: { Access-Control-Allow-Origin: { type: string } }
+        "403": { description: Unauthorized, schema: { $ref: "#/definitions/Error" } }
+        "500":
+          description: Unexpected error
+          schema: { $ref: "#/definitions/Error" }
+          headers: { Access-Control-Allow-Origin: { type: string } }
+      x-amazon-apigateway-integration:
+        type: aws
+        httpMethod: PUT
+        uri: arn:aws:apigateway:us-east-1:s3:path/photo-album-search-photos-088850687383/{object}
+        credentials: arn:aws:iam::088850687383:role/apigateway-s3-upload-role
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.path.object: method.request.path.object
+          integration.request.header.Content-Type: method.request.header.Content-Type
+          integration.request.header.x-amz-meta-customLabels: method.request.header.x-amz-meta-customLabels
+        responses:
+          "4\\d{2}":
+            statusCode: "400"
+            responseParameters: { method.response.header.Access-Control-Allow-Origin: "'*'" }
+          "5\\d{2}":
+            statusCode: "500"
+            responseParameters: { method.response.header.Access-Control-Allow-Origin: "'*'" }
+          default:
+            statusCode: "200"
+            responseParameters: { method.response.header.Access-Control-Allow-Origin: "'*'" }
+    options:
+      summary: CORS preflight
+      consumes: [application/json]
+      parameters:
+        - { in: path, name: object, type: string, required: true }
+      responses:
+        "200":
+          description: CORS headers
+          headers:
+            Access-Control-Allow-Origin: { type: string }
+            Access-Control-Allow-Methods: { type: string }
+            Access-Control-Allow-Headers: { type: string }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates: { application/json: '{"statusCode": 200}' }
+        passthroughBehavior: when_no_match
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+              method.response.header.Access-Control-Allow-Methods: "'PUT,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Api-Key,x-amz-meta-customLabels'"
+
+# Errors API Gateway itself returns (bad API key, throttling...) also get CORS headers,
+# so the browser can show the real error instead of a vague "CORS failed".
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Api-Key,x-amz-meta-customLabels'"
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Api-Key,x-amz-meta-customLabels'"
+
+definitions:
+  SearchResponse:
+    type: object
+    properties:
+      results: { type: array, items: { $ref: "#/definitions/Photo" } }
+  Photo:
+    type: object
+    properties:
+      url: { type: string }
+      labels: { type: array, items: { type: string } }
+  Error:
+    type: object
+    properties:
+      code: { type: integer, format: int32 }
+      message: { type: string }

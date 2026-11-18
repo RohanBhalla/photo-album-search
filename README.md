@@ -43,12 +43,12 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 - [x] Empty array when Lex finds no keywords
 
 ### 4. API layer (API Gateway)
-- [ ] API built from the [Swagger spec](https://github.com/001000001/ai-photo-search-columbia-f2018/blob/master/swagger.yaml)
-- [ ] `PUT /photos` as an S3 proxy, passing `x-amz-meta-customLabels`
-- [ ] `GET /search?q=` connected to LF2
-- [ ] API key on both methods
-- [ ] Deploy the API
-- [ ] Generate the JavaScript SDK (SDK1)
+- [x] API built from the [Swagger spec](https://github.com/001000001/ai-photo-search-columbia-f2018/blob/master/swagger.yaml)
+- [x] `PUT /photos/{object}` as an S3 proxy, passing `x-amz-meta-customLabels`
+- [x] `GET /search?q=` connected to LF2
+- [x] API key on both methods
+- [x] Deploy the API
+- [x] Generate the JavaScript SDK (SDK1)
 
 ### 5. Frontend
 - [ ] Search box → `GET /search`
