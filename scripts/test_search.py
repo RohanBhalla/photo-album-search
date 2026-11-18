@@ -16,7 +16,10 @@ from opensearchpy import AWSV4SignerAuth, OpenSearch, RequestsHttpConnection  # 
 os_client = OpenSearch(hosts=[{"host": host, "port": 443}], use_ssl=True, verify_certs=True,
                        http_auth=AWSV4SignerAuth(session.get_credentials(), "us-east-1", "es"),
                        connection_class=RequestsHttpConnection, timeout=30)
-docs = [h["_source"] for h in os_client.search(index="photos", body={"size": 1000})["hits"]["hits"]]
+# Only photos in the main bucket: search-photos ignores other deployments' buckets (e.g. the T1 stack).
+BUCKET = "photo-album-search-photos-088850687383"
+docs = [h["_source"] for h in os_client.search(
+    index="photos", body={"size": 1000, "query": {"term": {"bucket": BUCKET}}})["hits"]["hits"]]
 
 
 def found_keys(q):

@@ -63,12 +63,12 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 - [x] P2: deploys the frontend to B1 on push to GitHub
 
 ### 7. CloudFormation (T1)
-- [ ] Template that creates both Lambdas, API Gateway, and both S3 buckets (OpenSearch and CodePipeline optional)
-- [ ] Lambda code comes from the template or GitHub
-- [ ] Frontend bucket is public and its URL is an output
+- [x] Template that creates both Lambdas, API Gateway, and both S3 buckets (OpenSearch and CodePipeline optional)
+- [x] Lambda code comes from the template or GitHub
+- [x] Frontend bucket is public and its URL is an output
 
 ### Acceptance criteria
-- [ ] T1 creates the resources
+- [x] T1 creates the resources
 - [x] A push to GitHub triggers build and deploy (frontend and backend)
 - [ ] Custom labels work end to end (mandatory)
 - [ ] Every Rekognition label and every custom label finds the photo, alone ("show me dogs") or in pairs ("show me cats and dogs")
@@ -83,3 +83,22 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 
 - Website: http://photo-album-search-frontend-088850687383.s3-website-us-east-1.amazonaws.com
 - API: https://4hknp7oxn6.execute-api.us-east-1.amazonaws.com/v1
+
+## CloudFormation template (T1)
+
+`infra/template.yaml` creates both S3 buckets (B1 public website, B2 photos with the upload trigger),
+both Lambdas with inline code and their IAM roles, and the API Gateway API with an API key.
+OpenSearch and the Lex bot are passed in as parameters (defaults point at the existing ones).
+
+```bash
+aws cloudformation deploy --stack-name photo-album-search-t1 \
+  --template-file infra/template.yaml --capabilities CAPABILITY_IAM \
+  --profile cc-hw1 --region us-east-1
+aws cloudformation describe-stacks --stack-name photo-album-search-t1 \
+  --query 'Stacks[0].Outputs' --profile cc-hw1 --region us-east-1
+```
+
+- Outputs: `WebsiteURL` (public frontend URL), `ApiURL`, `ApiKeyId`, bucket and function names.
+- To change Lambda code: edit the inline `ZipFile` code in the template and run `deploy` again.
+- All names are prefixed with the stack name, so it runs alongside the main deployment.
+  Each search Lambda only returns photos from its own bucket, so they can share the `photos` index.
