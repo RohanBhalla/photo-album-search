@@ -25,6 +25,9 @@ LEX_BOT_ALIAS_ID = os.environ["LEX_BOT_ALIAS_ID"]
 LEX_LOCALE = os.environ.get("LEX_LOCALE", "en_US")
 URL_EXPIRY = int(os.environ.get("URL_EXPIRY_SECONDS", "3600"))
 MAX_RESULTS = int(os.environ.get("MAX_RESULTS", "100"))
+# Only return photos from this bucket. Other deployments (e.g. the CloudFormation T1 stack)
+# share the same index, and this function can't make working links for their buckets.
+PHOTOS_BUCKET = os.environ.get("PHOTOS_BUCKET", "")
 
 lex = boto3.client("lexv2-runtime")
 # SigV4 presigned URLs (the older SigV2 style is being retired by AWS)
@@ -87,6 +90,7 @@ def search_photos(keywords):
             "bool": {
                 "should": [{"match": {"labels": k}} for k in keywords],
                 "minimum_should_match": 1,
+                "filter": [{"term": {"bucket": PHOTOS_BUCKET}}] if PHOTOS_BUCKET else [],
             }
         },
     }
