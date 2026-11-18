@@ -1,0 +1,15 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Sid": "Logs", "Effect": "Allow", "Action": ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
+      "Resource": "arn:aws:logs:us-east-1:088850687383:log-group:/aws/codebuild/photo-album-frontend*" },
+    { "Sid": "PipelineArtifacts", "Effect": "Allow", "Action": ["s3:GetObject", "s3:GetObjectVersion", "s3:PutObject"],
+      "Resource": "arn:aws:s3:::photo-album-search-pipeline-088850687383/*" },
+    { "Sid": "ReadApiKey", "Effect": "Allow", "Action": "ssm:GetParameters",
+      "Resource": "arn:aws:ssm:us-east-1:088850687383:parameter/photo-album-search/api-key" },
+    { "Sid": "ListWebsiteBucket", "Effect": "Allow", "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::photo-album-search-frontend-088850687383" },
+    { "Sid": "WriteWebsite", "Effect": "Allow", "Action": ["s3:PutObject", "s3:DeleteObject", "s3:GetObject"],
+      "Resource": "arn:aws:s3:::photo-album-search-frontend-088850687383/*" }
+  ]
+}

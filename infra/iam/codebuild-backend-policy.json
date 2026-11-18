@@ -1,0 +1,11 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Sid": "Logs", "Effect": "Allow", "Action": ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
+      "Resource": "arn:aws:logs:us-east-1:088850687383:log-group:/aws/codebuild/photo-album-backend*" },
+    { "Sid": "PipelineArtifacts", "Effect": "Allow", "Action": ["s3:GetObject", "s3:GetObjectVersion", "s3:PutObject"],
+      "Resource": "arn:aws:s3:::photo-album-search-pipeline-088850687383/*" },
+    { "Sid": "DeployLambdas", "Effect": "Allow", "Action": ["lambda:UpdateFunctionCode", "lambda:GetFunction", "lambda:GetFunctionConfiguration"],
+      "Resource": ["arn:aws:lambda:us-east-1:088850687383:function:index-photos", "arn:aws:lambda:us-east-1:088850687383:function:search-photos"] }
+  ]
+}

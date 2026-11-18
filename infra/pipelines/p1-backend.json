@@ -1,0 +1,86 @@
+{
+  "pipeline": {
+    "name": "photo-album-backend-pipeline",
+    "pipelineType": "V2",
+    "executionMode": "SUPERSEDED",
+    "roleArn": "arn:aws:iam::088850687383:role/photo-album-codepipeline-role",
+    "artifactStore": {
+      "type": "S3",
+      "location": "photo-album-search-pipeline-088850687383"
+    },
+    "stages": [
+      {
+        "name": "Source",
+        "actions": [
+          {
+            "name": "GitHub",
+            "actionTypeId": {
+              "category": "Source",
+              "owner": "AWS",
+              "provider": "CodeStarSourceConnection",
+              "version": "1"
+            },
+            "configuration": {
+              "ConnectionArn": "arn:aws:codeconnections:us-east-1:088850687383:connection/a82fc812-9d03-4be2-bacf-1aca95666390",
+              "FullRepositoryId": "RohanBhalla/photo-album-search",
+              "BranchName": "main",
+              "OutputArtifactFormat": "CODE_ZIP",
+              "DetectChanges": "true"
+            },
+            "outputArtifacts": [
+              {
+                "name": "Source"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BuildAndDeployLambdas",
+        "actions": [
+          {
+            "name": "CodeBuild",
+            "actionTypeId": {
+              "category": "Build",
+              "owner": "AWS",
+              "provider": "CodeBuild",
+              "version": "1"
+            },
+            "configuration": {
+              "ProjectName": "photo-album-backend"
+            },
+            "inputArtifacts": [
+              {
+                "name": "Source"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "triggers": [
+      {
+        "providerType": "CodeStarSourceConnection",
+        "gitConfiguration": {
+          "sourceActionName": "GitHub",
+          "push": [
+            {
+              "branches": {
+                "includes": [
+                  "main"
+                ]
+              },
+              "filePaths": {
+                "includes": [
+                  "backend/**",
+                  "scripts/build_lambda.sh",
+                  "infra/buildspec-backend.yml"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

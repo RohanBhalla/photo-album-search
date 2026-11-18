@@ -1,0 +1,23 @@
+# CodeBuild steps for pipeline P1: build and deploy both Lambda functions.
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.12
+  build:
+    commands:
+      - chmod +x scripts/*.sh
+      - scripts/build_lambda.sh index-photos
+      - scripts/build_lambda.sh search-photos
+  post_build:
+    commands:
+      - |
+        set -e
+        if [ "$CODEBUILD_BUILD_SUCCEEDING" != "1" ]; then echo "Build failed, not deploying"; exit 1; fi
+        for fn in index-photos search-photos; do
+          echo "Deploying $fn"
+          aws lambda update-function-code --function-name "$fn" --zip-file "fileb://build/$fn.zip" \
+            --query '{fn:FunctionName,size:CodeSize,sha:CodeSha256}' --output json
+          aws lambda wait function-updated-v2 --function-name "$fn"
+        done

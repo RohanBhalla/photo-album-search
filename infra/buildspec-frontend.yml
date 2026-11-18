@@ -1,0 +1,13 @@
+# CodeBuild steps for pipeline P2: deploy the frontend to the website bucket (B1).
+version: 0.2
+
+env:
+  parameter-store:
+    API_KEY: /photo-album-search/api-key   # written into config.js, never stored in git
+
+phases:
+  build:
+    commands:
+      - chmod +x scripts/*.sh
+      - scripts/write_frontend_config.sh
+      - scripts/deploy_frontend.sh
