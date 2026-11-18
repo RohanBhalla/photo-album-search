@@ -59,8 +59,8 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 - [x] Use SDK1 in the frontend
 
 ### 6. CodePipeline
-- [ ] P1: builds and deploys both Lambdas on push to GitHub
-- [ ] P2: deploys the frontend to B1 on push to GitHub
+- [x] P1: builds and deploys both Lambdas on push to GitHub
+- [x] P2: deploys the frontend to B1 on push to GitHub
 
 ### 7. CloudFormation (T1)
 - [ ] Template that creates both Lambdas, API Gateway, and both S3 buckets (OpenSearch and CodePipeline optional)
@@ -69,7 +69,7 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 
 ### Acceptance criteria
 - [ ] T1 creates the resources
-- [ ] A push to GitHub triggers build and deploy (frontend and backend)
+- [x] A push to GitHub triggers build and deploy (frontend and backend)
 - [ ] Custom labels work end to end (mandatory)
 - [ ] Every Rekognition label and every custom label finds the photo, alone ("show me dogs") or in pairs ("show me cats and dogs")
 - [ ] Everything else works as described
