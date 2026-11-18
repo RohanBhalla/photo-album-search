@@ -24,3 +24,6 @@ node_modules/
 
 # Course PDF (lives outside the repo)
 *.pdf
+
+# Frontend config holds the API key
+frontend/config.js

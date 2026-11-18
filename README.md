@@ -51,12 +51,12 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 - [x] Generate the JavaScript SDK (SDK1)
 
 ### 5. Frontend
-- [ ] Search box → `GET /search`
-- [ ] Show result photos
-- [ ] Upload form → `PUT /photos`, with custom labels sent as a comma-separated `x-amz-meta-customLabels` header
-- [ ] S3 bucket B1 with static website hosting
-- [ ] Upload frontend files to B1
-- [ ] Use SDK1 in the frontend
+- [x] Search box → `GET /search`
+- [x] Show result photos
+- [x] Upload form → `PUT /photos`, with custom labels sent as a comma-separated `x-amz-meta-customLabels` header
+- [x] S3 bucket B1 with static website hosting
+- [x] Upload frontend files to B1
+- [x] Use SDK1 in the frontend
 
 ### 6. CodePipeline
 - [ ] P1: builds and deploys both Lambdas on push to GitHub
@@ -78,3 +78,8 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 
 - Account: personal (`cc-hw1` profile), region `us-east-1`
 - Copy `.env.example` to `.env` and fill it in. `.env` is git-ignored.
+
+## Live URLs
+
+- Website: http://photo-album-search-frontend-088850687383.s3-website-us-east-1.amazonaws.com
+- API: https://4hknp7oxn6.execute-api.us-east-1.amazonaws.com/v1
