@@ -77,7 +77,7 @@ def index_photo(bucket, key, event_time):
     }
     # Using bucket/key as the id means re-uploading a photo updates it instead of duplicating it.
     search.index(index=INDEX, id=f"{bucket}/{key}", body=doc)
-    logger.info("Indexed %s", json.dumps(doc))
+    logger.info("Indexed %s (custom=%d, rekognition=%d)", json.dumps(doc), len(custom), len(detected))
     return doc
 
 
