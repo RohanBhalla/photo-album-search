@@ -82,7 +82,7 @@ check("2c", "S3 PUT event on B2 triggers LF1", lambda: (
 # Fresh end-to-end upload through the API (PUT /photos) with custom labels.
 TAG = "Chk" + uuid.uuid4().hex[:6]
 KEY = "requirements-check.jpg"
-photo = (ROOT / "docs" / "test-photos" / "cat.jpg").read_bytes()
+photo = (ROOT / "other-scripts" / "docs" / "test-photos" / "cat.jpg").read_bytes()
 up_code, _, _ = http("PUT", f"{API_URL}/photos/{KEY}", {"x-api-key": API_KEY, "Content-Type": "image/jpeg",
                                                          "x-amz-meta-customLabels": f"{TAG}, Grader"}, photo)
 doc = {}
