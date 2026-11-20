@@ -126,7 +126,7 @@ def lambda_handler(event, context):
     try:
         keywords = get_keywords(query) if query else []
         results = search_photos(keywords) if keywords else []
-        logger.info("v1.1 search q=%r keywords=%s results=%d", query, keywords, len(results))
+        logger.info("q=%r keywords=%s results=%d", query, keywords, len(results))
         return respond(event, 200, {"results": results})
     except Exception as exc:
         logger.exception("Search failed for q=%r", query)
