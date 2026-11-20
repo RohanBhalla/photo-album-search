@@ -1,6 +1,6 @@
 """Acceptance criterion 4 check: every label of every indexed photo must find that photo,
 searched alone ("show me X") and in a pair ("show me X and Y").
-Usage: .venv/bin/python scripts/test_search.py
+Usage: .venv/bin/python other-scripts/test_search.py
 """
 import itertools
 import json

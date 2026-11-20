@@ -7,9 +7,9 @@ phases:
       python: 3.12
   build:
     commands:
-      - chmod +x scripts/*.sh
-      - scripts/build_lambda.sh index-photos
-      - scripts/build_lambda.sh search-photos
+      - chmod +x other-scripts/*.sh
+      - other-scripts/build_lambda.sh index-photos
+      - other-scripts/build_lambda.sh search-photos
   post_build:
     commands:
       - |

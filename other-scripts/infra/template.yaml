@@ -114,7 +114,7 @@ Resources:
           OPENSEARCH_INDEX: !Ref OpenSearchIndex
       Code:
         ZipFile: |
-          # LF1 index-photos (inline copy; full version in backend/index-photos/)
+          # LF1 index-photos (inline copy; full version in lambda-functions/index-photos/)
           import json, logging, os
           from datetime import datetime
           from urllib.parse import quote, unquote_plus
@@ -222,7 +222,7 @@ Resources:
           PHOTOS_BUCKET: !Sub ${AWS::StackName}-photos-${AWS::AccountId}
       Code:
         ZipFile: |
-          # LF2 search-photos (inline copy; full version in backend/search-photos/)
+          # LF2 search-photos (inline copy; full version in lambda-functions/search-photos/)
           import json, logging, os, uuid
           import boto3
           from botocore.auth import SigV4Auth
@@ -316,7 +316,7 @@ Resources:
                 Action: s3:PutObject
                 Resource: !Sub arn:aws:s3:::${AWS::StackName}-photos-${AWS::AccountId}/*
 
-  # Same definition as infra/api.yaml, with ARNs filled in for this stack.
+  # Same definition as other-scripts/infra/api.yaml, with ARNs filled in for this stack.
   PhotoApi:
     Type: AWS::ApiGateway::RestApi
     Properties:

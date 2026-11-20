@@ -8,6 +8,6 @@ env:
 phases:
   build:
     commands:
-      - chmod +x scripts/*.sh
-      - scripts/write_frontend_config.sh
-      - scripts/deploy_frontend.sh
+      - chmod +x other-scripts/*.sh
+      - other-scripts/write_frontend_config.sh
+      - other-scripts/deploy_frontend.sh

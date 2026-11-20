@@ -1,9 +1,9 @@
-"""Create or update the Lex V2 bot described in lex/bot.json. Safe to run again.
+"""Create or update the Lex V2 bot described in other-scripts/lex/bot.json. Safe to run again.
 
 Steps: bot -> en_US locale -> slot type -> intent -> slots -> utterances
        -> build -> new version -> point the "prod" alias at it.
 Prints the bot id and alias id to put in .env.
-Usage: .venv/bin/python scripts/create_lex_bot.py
+Usage: .venv/bin/python other-scripts/create_lex_bot.py
 """
 import json
 import pathlib
@@ -12,7 +12,7 @@ import time
 import boto3
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-spec = json.loads((ROOT / "lex" / "bot.json").read_text())
+spec = json.loads((ROOT / "other-scripts" / "lex" / "bot.json").read_text())
 session = boto3.Session(profile_name="cc-hw1", region_name="us-east-1")
 lex = session.client("lexv2-models")
 iam = session.client("iam")

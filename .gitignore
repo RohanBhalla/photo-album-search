@@ -11,7 +11,7 @@ venv/
 # Lambda build output
 build/
 dist/
-!frontend/sdk/lib/axios/dist/
+!front-end/sdk/lib/axios/dist/
 *.zip
 package/
 
@@ -27,4 +27,4 @@ node_modules/
 *.pdf
 
 # Frontend config holds the API key
-frontend/config.js
+front-end/config.js

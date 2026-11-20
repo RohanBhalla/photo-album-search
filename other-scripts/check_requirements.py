@@ -1,6 +1,6 @@
 """Check every Assignment 3 requirement against the live AWS setup. Prints PASS/FAIL per item.
 
-Usage: .venv/bin/python scripts/check_requirements.py
+Usage: .venv/bin/python other-scripts/check_requirements.py
 Safe to re-run: it uploads one test photo (key "requirements-check.jpg") and searches for it.
 """
 import json
@@ -133,7 +133,7 @@ check("4c", "API key required on both methods", lambda: (
 check("4d", "API deployed (stage v1)", lambda: (
     c["apigateway"].get_stage(restApiId=API_ID, stageName="v1")["deploymentId"] != "", API_URL))
 check("4e", "JavaScript SDK generated (SDK1)", lambda: (
-    API_URL in (ROOT / "frontend" / "sdk" / "apigClient.js").read_text(), "frontend/sdk/"))
+    API_URL in (ROOT / "front-end" / "sdk" / "apigClient.js").read_text(), "front-end/sdk/"))
 
 # ---------------------------------------------------------------- 5. Frontend
 print("\n5. Frontend")
@@ -157,10 +157,10 @@ def pipeline_ok(name, project, path_glob):
     last = c["codepipeline"].list_pipeline_executions(pipelineName=name, maxResults=1)["pipelineExecutionSummaries"][0]
     return (p["stages"][1]["actions"][0]["configuration"]["ProjectName"] == project and path_glob in paths
             and last["status"] == "Succeeded"), f"last run {last['status']}, trigger {last['trigger']['triggerType']}"
-check("6a", "P1 builds + deploys Lambdas on push to backend/", lambda: pipeline_ok(
-    "photo-album-backend-pipeline", "photo-album-backend", "backend/**"))
-check("6b", "P2 deploys frontend to B1 on push to frontend/", lambda: pipeline_ok(
-    "photo-album-frontend-pipeline", "photo-album-frontend", "frontend/**"))
+check("6a", "P1 builds + deploys Lambdas on push to lambda-functions/", lambda: pipeline_ok(
+    "photo-album-backend-pipeline", "photo-album-backend", "lambda-functions/**"))
+check("6b", "P2 deploys frontend to B1 on push to front-end/", lambda: pipeline_ok(
+    "photo-album-frontend-pipeline", "photo-album-frontend", "front-end/**"))
 
 # ---------------------------------------------------------------- 7. CloudFormation
 print("\n7. CloudFormation (T1)")
@@ -172,7 +172,7 @@ check("7a", "stack creates both Lambdas, API Gateway, both buckets, IAM roles", 
     and {"AWS::Lambda::Function", "AWS::ApiGateway::RestApi", "AWS::S3::Bucket", "AWS::IAM::Role"} <= types,
     stack["StackStatus"]))
 check("7b", "Lambda code is in the template (inline)", lambda: (
-    "ZipFile:" in (ROOT / "infra" / "template.yaml").read_text(), "infra/template.yaml"))
+    "ZipFile:" in (ROOT / "other-scripts" / "infra" / "template.yaml").read_text(), "other-scripts/infra/template.yaml"))
 check("7c", "frontend bucket is a public webpage, URL is an output", lambda: (
     http("GET", out["WebsiteURL"])[0] == 200, out["WebsiteURL"]))
 

@@ -15,17 +15,19 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 
 | Folder | What's in it |
 |---|---|
-| `backend/index-photos/` | LF1: indexes uploaded photos |
-| `backend/search-photos/` | LF2: handles search queries |
-| `frontend/` | Static website (hosted on S3 bucket B1) |
-| `lex/` | Lex bot definition (SearchIntent + utterances) |
-| `infra/` | CloudFormation template (T1) and CodeBuild buildspecs |
-| `docs/` | Notes and screenshots for submission |
+| `front-end/` | Static website (hosted on S3 bucket B1) and the generated API Gateway SDK |
+| `lambda-functions/index-photos/` | LF1: indexes uploaded photos |
+| `lambda-functions/search-photos/` | LF2: handles search queries |
+| `other-scripts/` | Build, deploy and test scripts |
+| `other-scripts/infra/` | CloudFormation template (T1), API definition, IAM policies, buildspecs, pipelines |
+| `other-scripts/lex/` | Lex bot definition (SearchIntent + utterances) |
+| `other-scripts/docs/` | Screenshots and test photos |
 
 ## AWS setup
 
 - Account: personal (`cc-hw1` profile), region `us-east-1`
 - Copy `.env.example` to `.env` and fill it in. `.env` is git-ignored.
+- Python tools: `python3 -m venv .venv && .venv/bin/pip install -r other-scripts/requirements-dev.txt`
 
 ## Live URLs
 
@@ -34,13 +36,13 @@ Cloud Computing and Big Data Systems, Fall 2026, Assignment 3.
 
 ## CloudFormation template (T1)
 
-`infra/template.yaml` creates both S3 buckets (B1 public website, B2 photos with the upload trigger),
+`other-scripts/infra/template.yaml` creates both S3 buckets (B1 public website, B2 photos with the upload trigger),
 both Lambdas with inline code and their IAM roles, and the API Gateway API with an API key.
 OpenSearch and the Lex bot are passed in as parameters (defaults point at the existing ones).
 
 ```bash
 aws cloudformation deploy --stack-name photo-album-search-t1 \
-  --template-file infra/template.yaml --capabilities CAPABILITY_IAM \
+  --template-file other-scripts/infra/template.yaml --capabilities CAPABILITY_IAM \
   --profile cc-hw1 --region us-east-1
 aws cloudformation describe-stacks --stack-name photo-album-search-t1 \
   --query 'Stacks[0].Outputs' --profile cc-hw1 --region us-east-1
@@ -54,6 +56,6 @@ aws cloudformation describe-stacks --stack-name photo-album-search-t1 \
 ## Checking everything
 
 ```bash
-.venv/bin/python scripts/check_requirements.py   # every assignment requirement against live AWS (30 checks)
-.venv/bin/python scripts/test_search.py          # every label of every photo, alone and in pairs
+.venv/bin/python other-scripts/check_requirements.py   # every assignment requirement against live AWS (30 checks)
+.venv/bin/python other-scripts/test_search.py          # every label of every photo, alone and in pairs
 ```

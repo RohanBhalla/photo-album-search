@@ -1,6 +1,6 @@
 {
   "pipeline": {
-    "name": "photo-album-frontend-pipeline",
+    "name": "photo-album-backend-pipeline",
     "pipelineType": "V2",
     "executionMode": "SUPERSEDED",
     "roleArn": "arn:aws:iam::088850687383:role/photo-album-codepipeline-role",
@@ -36,7 +36,7 @@
         ]
       },
       {
-        "name": "DeployToS3",
+        "name": "BuildAndDeployLambdas",
         "actions": [
           {
             "name": "CodeBuild",
@@ -47,7 +47,7 @@
               "version": "1"
             },
             "configuration": {
-              "ProjectName": "photo-album-frontend"
+              "ProjectName": "photo-album-backend"
             },
             "inputArtifacts": [
               {
@@ -72,10 +72,9 @@
               },
               "filePaths": {
                 "includes": [
-                  "frontend/**",
-                  "scripts/deploy_frontend.sh",
-                  "scripts/write_frontend_config.sh",
-                  "infra/buildspec-frontend.yml"
+                  "lambda-functions/**",
+                  "other-scripts/build_lambda.sh",
+                  "other-scripts/infra/buildspec-backend.yml"
                 ]
               }
             }

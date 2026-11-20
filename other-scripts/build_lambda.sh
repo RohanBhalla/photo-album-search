@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Build a deployable zip for one Lambda: its code plus its pip dependencies.
-# Usage: scripts/build_lambda.sh index-photos   -> build/index-photos.zip
+# Usage: other-scripts/build_lambda.sh index-photos   -> build/index-photos.zip
 # boto3 is already in the Lambda runtime, so it is not bundled.
 set -euo pipefail
 name="$1"
 root="$(cd "$(dirname "$0")/.." && pwd)"
-src="$root/backend/$name"
+src="$root/lambda-functions/$name"
 out="$root/build/$name"
 rm -rf "$out" "$out.zip" && mkdir -p "$out"
 if [ -s "$src/requirements.txt" ]; then

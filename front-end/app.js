@@ -11,7 +11,7 @@
   //     Fix: tag the file with one enumerable property before sending (see binaryBody).
   //  2. utils.copy() rebuilds the body with obj.constructor(), which throws for
   //     File/Blob ("use the 'new' operator"). Fix: pass binary bodies through as-is.
-  // Done here, not in frontend/sdk/, so regenerating the SDK doesn't undo it.
+  // Done here, not in front-end/sdk/, so regenerating the SDK doesn't undo it.
   function binaryBody(blob) {
     Object.defineProperty(blob, "isBinaryBody", { value: true, enumerable: true });
     return blob;
@@ -25,7 +25,7 @@
   var config = window.APP_CONFIG || {};
   if (!config.apiKey) {
     document.getElementById("search-status").textContent =
-      "Missing API key: create frontend/config.js (see config.example.js).";
+      "Missing API key: create front-end/config.js (see config.example.js).";
   }
   var client = apigClientFactory.newClient({ apiKey: config.apiKey });
 

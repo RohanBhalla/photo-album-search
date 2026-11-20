@@ -1,8 +1,8 @@
 """Send a signed request to the OpenSearch `photos` domain.
 
 Usage:
-  .venv/bin/python scripts/os.py GET /_cluster/health
-  .venv/bin/python scripts/os.py PUT /photos '{"mappings": {...}}'
+  .venv/bin/python other-scripts/os.py GET /_cluster/health
+  .venv/bin/python other-scripts/os.py PUT /photos '{"mappings": {...}}'
 """
 import json
 import os
