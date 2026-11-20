@@ -11,6 +11,7 @@ venv/
 # Lambda build output
 build/
 dist/
+!frontend/sdk/lib/axios/dist/
 *.zip
 package/
 
